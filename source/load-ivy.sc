@@ -32,7 +32,7 @@ def getVerilog(dut: => chisel3.core.UserModule): String = {
 
 // Convenience function to invoke Chisel and grab emitted FIRRTL.
 def getFirrtl(dut: => chisel3.core.UserModule): String = {
-  return chisel3.Driver.emit({() => dut})
+  return chisel3.stage.ChiselStage.emitChirrtl(dut)
 }
 
 def compileFIRRTL(
