@@ -4,30 +4,30 @@ interp.repositories() ::: List(
 
 @
 
-interp.configureCompiler(x => x.settings.source.value = scala.tools.nsc.settings.ScalaVersion("2.11.12"))
+interp.configureCompiler(x => x.settings.source.value = scala.tools.nsc.settings.ScalaVersion("2.12.13"))
 
 // Uncomment and change to use proxy
 // System.setProperty("https.proxyHost", "proxy.example.com")
 // System.setProperty("https.proxyPort", "3128")
 
-import $ivy.`edu.berkeley.cs::chisel3:3.4.+`
-import $ivy.`edu.berkeley.cs::chisel-iotesters:1.5.+`
-import $ivy.`edu.berkeley.cs::chiseltest:0.3.+`
+import $ivy.`edu.berkeley.cs::chisel3:3.5.0`
+import $ivy.`edu.berkeley.cs::chisel-iotesters:2.5.+`
+import $ivy.`edu.berkeley.cs::chiseltest:0.5.+`
 import $ivy.`edu.berkeley.cs::dsptools:1.4.+`
 import $ivy.`org.scalanlp::breeze:0.13.2`
 import $ivy.`edu.berkeley.cs::rocket-dsptools:1.2.0`
-import $ivy.`edu.berkeley.cs::firrtl-diagrammer:1.3.+`
+import $ivy.`edu.berkeley.cs::firrtl-diagrammer:1.5.+`
+import $ivy.`com.sifive::chisel-circt:0.6.0`
 
 import $ivy.`org.scalatest::scalatest:3.2.2`
 
+interp.load.plugin.ivy("edu.berkeley.cs" % "chisel3-plugin_2.12.13" % "3.5.0")
+
+
 // Convenience function to invoke Chisel and grab emitted Verilog.
 def getVerilog(dut: => chisel3.core.UserModule): String = {
-  import firrtl._
-  return chisel3.Driver.execute(Array[String](), {() => dut}) match {
-    case s:chisel3.ChiselExecutionSuccess => s.firrtlResultOption match {
-      case Some(f:FirrtlExecutionSuccess) => f.emitted
-    }
-  }
+    import chisel3.stage.ChiselStage
+    ChiselStage.emitSystemVerilog(dut)
 }
 
 // Convenience function to invoke Chisel and grab emitted FIRRTL.
