@@ -69,7 +69,7 @@ If you experience errors or issues with this section, try running `rm -rf ~/.loc
 Next, download coursier and use it to install almond (see [here](https://almond.sh/docs/quick-start-install) for the source for these instructions):
 ```
 curl -L -o coursier https://git.io/coursier-cli && chmod +x coursier
-SCALA_VERSION=2.12.10 ALMOND_VERSION=0.9.1
+SCALA_VERSION=2.12.12 ALMOND_VERSION=0.10.9
 ./coursier bootstrap -r jitpack \
     -i user -I user:sh.almond:scala-kernel-api_$SCALA_VERSION:$ALMOND_VERSION \
     sh.almond:scala-kernel_$SCALA_VERSION:$ALMOND_VERSION \
